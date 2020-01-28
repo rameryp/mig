@@ -1,9 +1,10 @@
-# Docker-Compose.YML to be execute from the dockerdata directory in OneDrive (OSX and Win)
+cd:
+  # Docker-Compose.YML to be execute from the dockerdata directory in OneDrive (OSX and Win)
 version: '3'
 
 services:
   mosquitto:
-    image: eclipse-mosquitto:1.5
+    image: eclipse-mosquitto
     container_name: mosquitto
     ports:
       - 1883:1883
@@ -14,10 +15,9 @@ services:
     restart: always
 
   influxdb:
-    image: influxdb:1.7
+    image: influxdb
     container_name: influxdb
     ports:
-      - 8086:8086
     volumes:
       - ./influxDB:/var/lib/influxdb
     restart: always
