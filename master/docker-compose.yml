@@ -4,24 +4,34 @@ version: '3'
 
 services:
   mosquitto:
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     container_name: mosquitto
     ports:
       - 1883:1883
     volumes:
-      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf ro
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf ro
+      - dockerdata:/mosquitto/data
+      - dockerdata:/mosquitto/log
     restart: always
 
   influxdb:
-    image: influxdb
+    image: influxdb:latest
     container_name: influxdb
     ports:
       - 8086:8086
+    env_file:
+      - 'env.influxdb'
     volumes:
-      - ./influxDB:/var/lib/influxdb
+      - dockerdata:/var/lib/influxdb
     restart: always
+
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    links:
+      - influxdb
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
 #  grafana:
 #     image: grafana/grafana
