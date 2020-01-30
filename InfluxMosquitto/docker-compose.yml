@@ -18,6 +18,7 @@ services:
     image: influxdb
     container_name: influxdb
     ports:
+      - 8086:8086
     volumes:
       - ./influxDB:/var/lib/influxdb
     restart: always
